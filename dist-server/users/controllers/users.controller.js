@@ -15,11 +15,9 @@ exports.insert = function (req, res) {
   req.body.permissionLevel = 1;
 
   _users["default"].findByEmail(req.body.email).then(function (result) {
-    console.log("!result.length :", result);
-
     if (result.length) {
-      res.json({
-        error: "Aynı emaille başka kullancı giriş yapamaz"
+      return res.status(400).send({
+        errors: ["This email has been used before"]
       });
     } else {
       _users["default"].createUser(req.body).then(function (result) {
@@ -27,8 +25,6 @@ exports.insert = function (req, res) {
           id: result._id
         });
       });
-
-      console.log("adasda");
     }
   });
 };

@@ -11,14 +11,14 @@ exports.insert = (req, res) => {
   req.body.password = salt + "$" + hash;
   req.body.permissionLevel = 1;
   UserModel.findByEmail(req.body.email).then((result) => {
-    console.log("!result.length :", result);
     if (result.length) {
-      res.json({ error: "Aynı emaille başka kullancı giriş yapamaz" });
+      return res
+        .status(400)
+        .send({ errors: ["This email has been used before"] });
     } else {
       UserModel.createUser(req.body).then((result) => {
         res.status(201).send({ id: result._id });
       });
-      console.log("adasda");
     }
   });
 };
