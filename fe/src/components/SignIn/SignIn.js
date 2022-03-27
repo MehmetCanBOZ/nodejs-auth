@@ -2,13 +2,15 @@ import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-
+import useAuth from "../../hooks/useAuth";
 const SignIn = () => {
+  const { SignUpUser } = useAuth();
+
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const onSubmit = () => {};
+
   return (
     <div>
       <h1>SignIn Page</h1>
@@ -50,7 +52,17 @@ const SignIn = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-        <Button variant="outlined" onClick={onSubmit}>
+        <Button
+          variant="outlined"
+          onClick={() =>
+            SignUpUser({
+              firstName,
+              lastName,
+              password,
+              email,
+            })
+          }
+        >
           Submit
         </Button>
       </Box>
