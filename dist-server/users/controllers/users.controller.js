@@ -22,7 +22,7 @@ exports.insert = function (req, res) {
     } else {
       _users["default"].createUser(req.body).then(function (result) {
         res.status(201).send({
-          id: result._id
+          user: result
         });
       });
     }
@@ -31,6 +31,8 @@ exports.insert = function (req, res) {
 
 exports.getById = function (req, res) {
   _users["default"].findById(req.params.userId).then(function (result) {
-    res.status(200).send(result);
+    res.status(200).send({
+      user: result
+    });
   });
 };

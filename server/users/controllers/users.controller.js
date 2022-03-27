@@ -17,7 +17,7 @@ exports.insert = (req, res) => {
         .send({ errors: ["This email has been used before"] });
     } else {
       UserModel.createUser(req.body).then((result) => {
-        res.status(201).send({ id: result._id });
+        res.status(201).send({ user: result });
       });
     }
   });
@@ -25,6 +25,6 @@ exports.insert = (req, res) => {
 
 exports.getById = (req, res) => {
   UserModel.findById(req.params.userId).then((result) => {
-    res.status(200).send(result);
+    res.status(200).send({ user: result });
   });
 };

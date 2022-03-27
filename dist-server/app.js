@@ -12,6 +12,8 @@ var _cors = _interopRequireDefault(require("cors"));
 
 var _routes = _interopRequireDefault(require("./users/routes.config"));
 
+var _routes2 = _interopRequireDefault(require("./auth/routes.config"));
+
 var _service = _interopRequireDefault(require("./service/service"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -25,7 +27,9 @@ app.use(_express["default"].urlencoded({
 }));
 app.use((0, _cookieParser["default"])());
 
-_routes["default"].routesConfig(app); // catch 404 and forward to error handler
+_routes["default"].routesConfig(app);
+
+_routes2["default"].routesConfig(app); // catch 404 and forward to error handler
 
 
 app.use(function (req, res, next) {

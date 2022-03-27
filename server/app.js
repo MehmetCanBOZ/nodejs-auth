@@ -4,6 +4,7 @@ import logger from "morgan";
 import createError from "http-errors";
 import cors from "cors";
 import UsersRouter from "./users/routes.config";
+import AuthRouter from "./auth/routes.config";
 import connectMongoDb from "./service/service";
 
 var app = express();
@@ -15,6 +16,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 UsersRouter.routesConfig(app);
+AuthRouter.routesConfig(app);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
