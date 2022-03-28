@@ -6,9 +6,9 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import Avatar from "@mui/material/Avatar";
 import TabPanel from "@mui/lab/TabPanel";
-import LogIn from "./components/LogIn/LogIn";
-import SignIn from "./components/SignIn/SignIn";
-import useAuth from "./hooks/useAuth";
+import LogIn from "components/LogIn/LogIn";
+import SignIn from "components/SignIn/SignIn";
+import useAuth from "hooks/useAuth";
 function App() {
   const { isAuthenticate, user } = useAuth();
 

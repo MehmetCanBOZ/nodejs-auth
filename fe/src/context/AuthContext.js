@@ -1,5 +1,5 @@
 import React from "react";
-import AuthServices from "../services/auth.service";
+import AuthServices from "services/auth.service";
 
 const AuthContext = React.createContext();
 
@@ -21,8 +21,12 @@ const AuthContextProvider = ({ children }) => {
 
   const LoginUser = async (params) => {
     try {
-      const response = await AuthServices.login(params);
-      setUser(response?.data?.user);
+      const { data, error } = await AuthServices.login(params);
+      if (error) {
+        console.log("error :", error);
+        return;
+      }
+      setUser(data?.user);
       setIsAuthenticate(true);
     } catch (err) {
       setIsAuthenticate(false);

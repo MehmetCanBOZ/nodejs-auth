@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from "../api/axiosInterceptors";
 
 const AuthServices = {
-  login: async (params) => axios.post("http://localhost:3001/auth", params),
-  signIn: async (params) => axios.post("http://localhost:3001/signIn", params),
+  login: async (params) => axios.post("/auth", params),
+  signIn: async (params) => axios.post("/signIn", params),
 };
 
 export default AuthServices;
