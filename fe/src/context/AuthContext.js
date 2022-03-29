@@ -1,47 +1,22 @@
-import React from "react";
+import React, { createContext, useState, useEffect } from "react";
 import AuthServices from "services/auth.service";
 
-const AuthContext = React.createContext();
+const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
-  const [isAuthenticate, setIsAuthenticate] = React.useState(false);
-  const [user, setUser] = React.useState(null);
-  console.log("isAuthenticate: ", isAuthenticate);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-  const SignUpUser = async (params) => {
-    try {
-      const response = await AuthServices.signIn(params);
-      setUser(response?.data?.user);
-      setIsAuthenticate(true);
-    } catch (err) {
-      setIsAuthenticate(false);
-      return err;
-    }
-  };
+  useEffect(() => {
+    AuthServices.isAuthenticated().then((res) => {
+      setIsAuthenticated(res);
+    });
+  }, [isAuthenticated]);
 
-  const LoginUser = async (params) => {
-    try {
-      const { data, error } = await AuthServices.login(params);
-      if (error) {
-        console.log("error :", error);
-        return;
-      }
-      setUser(data?.user);
-      setIsAuthenticate(true);
-    } catch (err) {
-      setIsAuthenticate(false);
-      return err;
-    }
-  };
-
-  const data = {
-    isAuthenticate,
-    LoginUser,
-    user,
-    SignUpUser,
-  };
-
-  return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export { AuthContextProvider, AuthContext };
+export { AuthContext, AuthContextProvider };

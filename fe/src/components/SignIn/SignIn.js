@@ -2,14 +2,26 @@ import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import useAuth from "hooks/useAuth";
-const SignIn = () => {
-  const { SignUpUser } = useAuth();
-
+import AuthServices from "services/auth.service";
+const SignIn = ({ changeTab }) => {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
+
+  const signUpUser = async (e) => {
+    const { error } = await AuthServices.signIn({
+      firstName,
+      lastName,
+      password,
+      email,
+    });
+    if (error) {
+      console.log("No info");
+      return;
+    }
+    changeTab(e, "2");
+  };
 
   return (
     <div>
@@ -52,17 +64,7 @@ const SignIn = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-        <Button
-          variant="outlined"
-          onClick={() =>
-            SignUpUser({
-              firstName,
-              lastName,
-              password,
-              email,
-            })
-          }
-        >
+        <Button variant="outlined" onClick={signUpUser}>
           Submit
         </Button>
       </Box>

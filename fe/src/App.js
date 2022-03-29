@@ -9,8 +9,9 @@ import TabPanel from "@mui/lab/TabPanel";
 import LogIn from "components/LogIn/LogIn";
 import SignIn from "components/SignIn/SignIn";
 import useAuth from "hooks/useAuth";
+import UserService from "services/user.service";
 function App() {
-  const { isAuthenticate, user } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const [value, setValue] = React.useState("1");
 
@@ -20,9 +21,11 @@ function App() {
 
   return (
     <div className="App">
-      {isAuthenticate ? (
+      {isAuthenticated ? (
         <>
-          <h1> Welcome {user && user?.firstName}</h1>
+          <h1>
+            Welcome {UserService.userName() ? UserService.userName() : null}
+          </h1>
           <Box
             mt={2}
             mb={2}
@@ -52,7 +55,7 @@ function App() {
               </TabList>
             </Box>
             <TabPanel value="1">
-              <SignIn />
+              <SignIn changeTab={handleChange} />
             </TabPanel>
             <TabPanel value="2">
               <LogIn />

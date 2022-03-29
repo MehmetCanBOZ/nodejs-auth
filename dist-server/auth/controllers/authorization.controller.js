@@ -18,7 +18,9 @@ exports.login = function (req, res) {
 
     req.body.refreshKey = salt;
 
-    var token = _jsonwebtoken["default"].sign(req.body, _env["default"].jwt_secret);
+    var token = _jsonwebtoken["default"].sign(req.body, _env["default"].jwt_secret, {
+      expiresIn: "10000"
+    });
 
     var b = Buffer.from(hash);
     var refresh_token = b.toString("base64");

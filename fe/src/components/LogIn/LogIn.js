@@ -2,12 +2,18 @@ import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import useAuth from "hooks/useAuth";
+import AuthServices from "services/auth.service";
 const LogIn = () => {
-  const { LoginUser } = useAuth();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const loginUser = async () => {
+    const response = await AuthServices.login({ email, password });
+    if (!response) {
+      console.log("No info");
+    }
+    return true;
+  };
   return (
     <div>
       <h1>Login Page</h1>
@@ -37,15 +43,7 @@ const LogIn = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-        <Button
-          variant="outlined"
-          onClick={() =>
-            LoginUser({
-              password,
-              email,
-            })
-          }
-        >
+        <Button variant="outlined" onClick={loginUser}>
           Submit
         </Button>
       </Box>
