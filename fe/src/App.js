@@ -11,9 +11,9 @@ import SignIn from "components/SignIn/SignIn";
 import useAuth from "hooks/useAuth";
 import UserService from "services/user.service";
 function App() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
 
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = React.useState("2");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -58,7 +58,7 @@ function App() {
               <SignIn changeTab={handleChange} />
             </TabPanel>
             <TabPanel value="2">
-              <LogIn />
+              <LogIn setIsAuthenticated={setIsAuthenticated} />
             </TabPanel>
           </TabContext>
         </Box>

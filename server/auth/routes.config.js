@@ -10,9 +10,9 @@ exports.routesConfig = function (app) {
   ]);
 
   app.post("/auth/refresh", [
-    AuthValidationMiddleware.validJWTNeeded,
     AuthValidationMiddleware.verifyRefreshBodyField,
+    AuthValidationMiddleware.validJWTNeeded,
     AuthValidationMiddleware.validRefreshNeeded,
-    AuthorizationController.login,
+    AuthorizationController.refresh_token,
   ]);
 };

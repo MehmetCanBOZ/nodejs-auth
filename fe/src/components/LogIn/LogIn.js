@@ -3,16 +3,19 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import AuthServices from "services/auth.service";
-const LogIn = () => {
+const LogIn = ({ setIsAuthenticated }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const loginUser = async () => {
     const response = await AuthServices.login({ email, password });
-    if (!response) {
-      console.log("No info");
+
+    if (response) {
+      setIsAuthenticated(true);
+      return;
     }
-    return true;
+
+    alert("Kulanıcı veya şifre Hatalı");
   };
   return (
     <div>

@@ -17,7 +17,6 @@ const SignIn = ({ changeTab }) => {
       email,
     });
     if (error) {
-      console.log("No info");
       return;
     }
     changeTab(e, "2");

@@ -12,7 +12,7 @@ const AuthServices = {
       if (isTokenValid()) {
         return true;
       }
-      return false;
+      return AuthServices.refreshToken();
     }
     return false;
   },
@@ -23,10 +23,9 @@ const AuthServices = {
         if (response?.data) {
           const accessToken = response.data.accessToken;
           if (accessToken) {
-            localStorage.setItem("authtoken", accessToken);
             localStorage.setItem(
               "authrefreshToken",
-              response?.data?.refreshToken
+              response.data.refreshToken
             );
             axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
             return accessToken;
@@ -40,9 +39,37 @@ const AuthServices = {
   logout: () => {
     localStorage.removeItem("authtoken");
     localStorage.removeItem("authrefreshToken");
+
     delete axios.defaults.headers.common.Authorization;
   },
   signIn: async (params) => axios.post("/signIn", params),
+  refreshToken: () => {
+    const params = new URLSearchParams({
+      grant_type: "refresh_token",
+      refresh_token: localStorage.getItem("authrefreshToken"),
+    });
+
+    return axios
+      .post("/auth/refresh", params)
+      .then(({ data: response }) => {
+        if (response?.data) {
+          const accessToken = response.data.id;
+          if (accessToken) {
+            localStorage.setItem("authtoken", accessToken);
+            /*    localStorage.setItem(
+              "authrefreshToken",
+              response.data.refreshToken
+            );*/
+            axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+            return accessToken;
+          }
+        }
+
+        AuthServices.logout();
+        return false;
+      })
+      .catch(() => false);
+  },
 };
 
 export default AuthServices;

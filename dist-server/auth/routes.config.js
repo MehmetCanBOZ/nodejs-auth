@@ -10,5 +10,5 @@ var AuthValidationMiddleware = require("../common/middlewares/auth.validation.mi
 
 exports.routesConfig = function (app) {
   app.post("/auth", [_verifyUser["default"].hasAuthValidFields, _verifyUser["default"].isPasswordAndUserMatch, _authorization["default"].login]);
-  app.post("/auth/refresh", [AuthValidationMiddleware.validJWTNeeded, AuthValidationMiddleware.verifyRefreshBodyField, AuthValidationMiddleware.validRefreshNeeded, _authorization["default"].login]);
+  app.post("/auth/refresh", [AuthValidationMiddleware.verifyRefreshBodyField, AuthValidationMiddleware.validJWTNeeded, AuthValidationMiddleware.validRefreshNeeded, _authorization["default"].refresh_token]);
 };
